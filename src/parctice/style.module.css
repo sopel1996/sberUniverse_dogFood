@@ -1,0 +1,13 @@
+.baseStyle{
+    margin: 0 auto;
+    width: 500px;
+    height: 500px;
+    background-color: yellow;
+    color: red;
+}
+.red{
+    background-color: red;
+}
+.blue{
+    background-color: blue;
+}

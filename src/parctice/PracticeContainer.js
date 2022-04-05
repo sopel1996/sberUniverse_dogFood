@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Counter } from "./Counter";
+import { Styles } from "./Styles";
 
 export const PracticeContainer = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -26,6 +27,8 @@ export const PracticeContainer = () => {
       >
         CLICK!
       </button>
+
+      <Styles />
     </div>
   );
 };

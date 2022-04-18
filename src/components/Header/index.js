@@ -7,7 +7,6 @@ export const Header = ({ children }) => {
             <div className="container">
                 <div className={style.header__wrapper}>
                     {children}
-                    <div className={style.restButtonsContainer}>rest buttons</div>
                 </div>
             </div>
         </div>

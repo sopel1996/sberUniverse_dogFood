@@ -5,7 +5,9 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-
+import IconButton, { IconButtonProps } from '@mui/material/IconButton';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import api from '../../utils/api.js'
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 const theme = createTheme({
@@ -19,28 +21,49 @@ const theme = createTheme({
     },
 });
 
-export const Card = ({ itemFood, isInBasket, setBasket }) => {
-    const writeLS = () => {
-        const basket = JSON.parse(localStorage.getItem('basket')) || [];
-        basket.push(itemFood._id);
-        localStorage.setItem('basket', JSON.stringify(basket));
+export const Card = ({ itemFood, isInBasket, setBasket, isInFavorite, setFavorite }) => {
+    const writeLS = (key, value) => {
+        const storage = JSON.parse(localStorage.getItem(key)) || [];
+        storage.push(value);
+        localStorage.setItem(key, JSON.stringify(storage));
     };
 
-    const removeLS = () => {
-        const basket = JSON.parse(localStorage.getItem('basket'));
-        const filteredBasket = basket.filter((itemID) => itemFood._id !== itemID);
-        localStorage.setItem('basket', JSON.stringify(filteredBasket));
+    const removeLS = (key, value) => {
+        const storage = JSON.parse(localStorage.getItem(key));
+        const filteredStorage = storage.filter((itemID) => value !== itemID);
+        localStorage.setItem(key, JSON.stringify(filteredStorage));
     };
 
     const addItem = () => {
-        writeLS();
+        writeLS('basket',itemFood._id);
         setBasket((prevState) => [...prevState, itemFood._id]);
     };
 
     const removeItem = () => {
-        removeLS();
+        removeLS('basket',itemFood._id);
         setBasket((prevState) => prevState.filter((itemID) => itemFood._id !== itemID));
     };
+
+    const addFavorite = ()=>{
+        writeLS('favorite',itemFood._id);
+        setFavorite((prevState) => [...prevState, itemFood._id]);
+        api.addLike(itemFood._id).then((addedItem)=>{
+            alert(`${addedItem.name} добавлен в избранные`)
+        })
+        .catch(()=>{
+            alert(`Не удалось добавить в избранные`)
+        })
+    }
+    const removeFavorite = ()=>{
+        removeLS('favorite',itemFood._id);
+        setFavorite((prevState) => prevState.filter((itemID) => itemFood._id !== itemID));   
+        api.removeLike(itemFood._id).then((removedItem)=>{
+            alert(`${removedItem.name} удален из избранного`)
+        })
+        .catch(()=>{
+            alert(`Не удалось удалить из избранного`)
+        })     
+    }
 
     return (
         <ThemeProvider theme={theme}>
@@ -64,6 +87,20 @@ export const Card = ({ itemFood, isInBasket, setBasket }) => {
                             В корзину
                         </Button>
                     )}
+                    {isInFavorite ? (
+                        <IconButton aria-label="add to favorites" onClick={removeFavorite} color='secondary'>
+                        <FavoriteIcon />
+                    </IconButton>
+                    ) : (
+                        <IconButton aria-label="add to favorites" onClick={addFavorite}>
+                        <FavoriteIcon />
+                    </IconButton>
+                    )}
+
+                    {/* <IconButton aria-label="add to favorites" onClick={isInFavorite ? removeFavorite : addFavorite} color={isInFavorite ? 'secondary' : 'primary'}>
+                        <FavoriteIcon />
+                    </IconButton> */}
+                    
                 </CardActions>
             </CardMUI>
         </ThemeProvider>

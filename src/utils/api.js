@@ -26,6 +26,30 @@ class Api {
         }).then(onResponce);
     }
 
+    addLike(itemID) {
+        return fetch(`${this._url}/products/likes/${itemID}`, {
+            method: 'PUT',
+            headers: {
+                authorization: `Bearer ${this._token}`,
+            },
+        }).then(onResponce);
+    }
+    
+    removeLike(itemID) {
+        return fetch(`${this._url}/products/likes/${itemID}`, {
+            method: 'DELETE',
+            headers: {
+                authorization: `Bearer ${this._token}`,
+            },
+        }).then(onResponce);
+    }
+    getCurrentUserInfo() {
+        return fetch(`${this._url}/users/me`, {
+            headers: {
+                authorization: `Bearer ${this._token}`,
+            },
+        }).then(onResponce);
+    }
     // getPosts() {
     //     return fetch(`${this._url}/posts`);
     // }

@@ -1,4 +1,6 @@
 import React from 'react';
+import {Link} from 'react-router-dom'
+
 import { Card as CardMUI } from '@mui/material';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
@@ -74,7 +76,7 @@ export const Card = ({ itemFood, isInBasket, setBasket, isInFavorite, setFavorit
                         {itemFood.price}
                     </Typography>
                     <Typography variant='body2' color='text.secondary'>
-                        {itemFood.name}
+                        <Link to={`product/${itemFood._id}`}>{itemFood.name}</Link>
                     </Typography>
                 </CardContent>
                 <CardActions>

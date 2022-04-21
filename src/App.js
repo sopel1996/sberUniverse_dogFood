@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Routes, Route, Link } from "react-router-dom";
 
 import mockedData from '../data.json';
 import api from './utils/api';
@@ -8,10 +9,13 @@ import { Footer } from './components/Footer';
 import { Header } from './components/Header';
 import { List } from './components/List';
 import { Search } from './components/Search';
+import { Item } from './components/Item';
 import { PracticeContainer } from './practice/PracticeContainer';
+
 
 import './index.css';
 import { Info } from './components/Info';
+import { CreateItem } from './components/CreateItem';
 
 export const App = () => {
     const [foodList, setFoodList] = useState(null);
@@ -46,15 +50,24 @@ export const App = () => {
 
     return (
         <div className='appContainer'>
+            
             <Header>
                 <Logo />
                 <Search setQuery={handleChangeSearchInput} />
                 <Info basket={basket} favorite={favorite} name={user?.name}/>
             </Header>
             <div className='content container'>
-                <div className='content__cards'>
+                <Routes>
+                    <Route path='/' element={
+                        
+                        <div className='content__cards'>
                     <List list={foodList} basket={basket} setBasket={setBasket} favorite={favorite} setFavorite={setFavorite}/>
                 </div>
+                } />
+                <Route path='about' element={<div>PAGE ABOUT</div>}/>
+                <Route path='product/createItem' element={<div>< CreateItem/></div>}/>
+                <Route path='product/:itemID' element={<div><Item /></div>}/>
+                </Routes>
             </div>
             <Footer />
             {/* <PracticeContainer /> */}

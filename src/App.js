@@ -65,7 +65,7 @@ export const App = () => {
                 </div>
                 } />
                 <Route path='about' element={<div>PAGE ABOUT</div>}/>
-                <Route path='product/createItem' element={<div>< CreateItem/></div>}/>
+                <Route path='product/create' element={<div>< CreateItem/></div>}/>
                 <Route path='product/:itemID' element={<div><Item /></div>}/>
                 </Routes>
             </div>
